@@ -1,0 +1,18 @@
+{
+  "name": "fractal-protocol-evm",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "clean": "hardhat clean",
+    "test": "hardhat test",
+    "deploy": "hardhat run --network bscTestnet scripts/deploy.ts"
+  },
+  "devDependencies": {
+    "hardhat": "^2.22.2",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "dotenv": "^16.4.5"
+  }
+}

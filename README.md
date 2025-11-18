@@ -4,7 +4,7 @@
 
 Fractal Protocol is an AI-enhanced **prediction market platform** where each event dynamically spawns new, conditional sub-markets based on its outcome — forming an evolving, tree-like network of interrelated predictions.
 
-The system leverages **Linera's microchain architecture** to achieve linear scalability, instant finality, and cross-chain message propagation — allowing markets to evolve in real time as events unfold.
+This repository now targets **BNB Chain (EVM)** for smart contracts, using Hardhat for development, deployment, and testing.
 
 ## 🎯 Key Features
 
@@ -19,10 +19,9 @@ The system leverages **Linera's microchain architecture** to achieve linear scal
 ```
 Frontend (React + TypeScript)
     ↓
-Smart Contracts (Linera Microchains)
+Smart Contracts (BNB Chain / EVM)
     ├── Market Contract
-    ├── Factory Contract
-    └── Spawn Handler
+    └── Market Factory
     ↓
 Backend Services
     ├── AI Agent Layer
@@ -34,9 +33,8 @@ Backend Services
 ### Prerequisites
 
 - Node.js 18+
-- Rust 1.70+
-- Linera CLI
 - Git
+- A BSC RPC endpoint and a funded testnet wallet
 
 ### Installation
 
@@ -48,11 +46,16 @@ cd fractal-protocol
 # Install dependencies
 npm install
 
-# Build smart contracts
-cd contracts
-cargo build --release
+# Build EVM smart contracts for BNB Chain
+cd evm
+npm install
+npm run compile
 
-# Start development server
+# Deploy to BSC Testnet (optional)
+# Ensure you set BSC_TESTNET_RPC and BSC_PRIVATE_KEY in evm/.env
+npx hardhat run --network bscTestnet scripts/deploy.ts
+
+# Start frontend dev server
 cd ../frontend
 npm run dev
 ```
@@ -61,10 +64,10 @@ npm run dev
 
 ```
 fractal-protocol/
-├── contracts/           # Linera smart contracts
-│   ├── market/         # Core market contract
-│   ├── factory/        # Market factory contract
-│   └── spawn-handler/  # Cross-chain spawn handler
+├── evm/                # EVM smart contracts (BNB Chain)
+│   ├── contracts/      # Solidity contracts (Market, MarketFactory)
+│   ├── scripts/        # Deployment scripts
+│   └── hardhat.config.ts
 ├── frontend/           # React frontend application
 │   ├── src/
 │   │   ├── components/ # UI components
@@ -102,5 +105,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🔗 Links
 
 - [Documentation](./docs/)
-- [Linera Documentation](https://linera.dev/)
 - [Project Roadmap](./docs/roadmap.md)
