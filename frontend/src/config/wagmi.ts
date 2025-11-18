@@ -6,6 +6,8 @@ import {
   optimism,
   polygon,
   sepolia,
+  bsc,
+  bscTestnet,
 } from 'wagmi/chains';
 
 export const config = getDefaultConfig({
@@ -17,7 +19,9 @@ export const config = getDefaultConfig({
     optimism,
     arbitrum,
     base,
-    ...(process.env.NODE_ENV === 'development' ? [sepolia] : []),
+    // BNB Chain support
+    bsc,
+    ...(process.env.NODE_ENV === 'development' ? [bscTestnet, sepolia] : []),
   ],
   ssr: false, // If your dApp uses server side rendering (SSR)
 });

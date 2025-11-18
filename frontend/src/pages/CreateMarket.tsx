@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Icon } from '@iconify/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { createMarket } from '../config/api'
+import { useChainId } from 'wagmi'
+import { createMarket as createMarketOnChain } from '../services/markets'
 
 const CreateMarket = () => {
   const navigate = useNavigate()
@@ -17,6 +18,7 @@ const CreateMarket = () => {
   const [liquidity, setLiquidity] = useState<number>(1000)
   const [probability, setProbability] = useState<number>(50)
   const [submitting, setSubmitting] = useState(false)
+  const chainId = useChainId()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,21 +34,13 @@ const CreateMarket = () => {
 
     try {
       setSubmitting(true)
-      const payload = {
-        title: name,
-        description,
-        category,
-        type,
-        closeAt,
-        oracle,
-        collateral,
-        liquidity,
-        probability,
-      }
+      // Map UI form to on-chain params
+      const question = name
+      const expiryTime = new Date(closeAt)
+      const outcomes = type === 'binary' ? ['Yes', 'No'] : ['Option A', 'Option B']
 
-      await createMarket(payload)
-      toast.success('Market created successfully')
-      // Navigate to explore or specific market page if available
+      const address = await createMarketOnChain(chainId, question, outcomes, expiryTime)
+      toast.success(`Market created: ${address}`)
       navigate('/explore')
     } catch (err: any) {
       toast.error(err?.message || 'Failed to create market')
